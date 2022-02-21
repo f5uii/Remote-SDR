@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name = "author" content = "André Buhart F1ATB">
+		
+        <title>Remote SDR</title>
+		<script  src="JS/jquery-3.4.1.min.js" ></script>
+		<link href="css/index.css?t=4" rel="stylesheet" type="text/css" />
+		
+		
+    </head>
+    <body>
+	<canvas id="canvas_tux"></canvas>
+	<div class="remote"><a href="remote_sdr.html" >Remote SDR</a></div>
+	<div class="tools"><a href="/tools.html" >Tools</a></div>
+	<div id="version">xxx</div>
+	<div id="popup_new_version"></div>
+	<script  src="JS/remote_SDR.js" ></script>
+		<script  >
+		        //Version Check
+				var date_Last_Check="";
+				$(window).resize(function(){
+				  window_resize();
+				});
+				function window_resize(){
+					var f= window.innerHeight/50;
+					$("body").css("font-size",f);
+				}
+				$( document ).ready(function() {
+					$("#version").html(Version);
+					window_resize();
+					//Local Storage
+					var the_date = new Date();
+					var date_current = the_date.getMonth(); 
+					if (localStorage.getItem("date_Last_Check")!=null){ // We have an old storage 
+						date_Last_Check =  JSON.parse(localStorage.getItem("date_Last_Check"));					
+					}
+					if (date_Last_Check != date_current  ) { // Check once every Month 
+						var p=Version.indexOf("V");
+						var V =parseFloat(Version.substr(p+1));
+						var loader='<iframe src="https://f1atb.fr/mes_pages/VersionRemSdr/check_version.php?version=' + V + '" frameBorder="0" style="width:100%;"></iframe>'
+						$("#popup_new_version").html(loader);
+					}
+					localStorage.setItem("date_Last_Check", JSON.stringify(date_current));
+				});
+			
+			
+			
+		</script>
+		<script  type="module" src="/3D/index_m.js" ></script>
+    </body>
+</html>
